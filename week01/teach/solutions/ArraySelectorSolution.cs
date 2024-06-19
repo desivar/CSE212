@@ -1,3 +1,7 @@
+//The list selector has 3 arrays:1, 2 and the select array. 
+//The selector array has 1s and 2s. If the selector array has a 1, the value from the first array is selected. If the selector array
+
+//The goal is to create a new list
 public static class ArraySelectorSolution
 {
     public static void Run()

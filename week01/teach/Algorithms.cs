@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
+﻿//Problem #1
 
+using System.Diagnostics;
 public static class Algorithms {
     public static void Run() {
         Console.WriteLine("{0,15}{1,15}{2,15}{3,15}{4,15}{5,15}{6,15}", "n", "alg1-count", "alg2-count", "alg3-count",
@@ -28,13 +29,13 @@ public static class Algorithms {
         sw.Stop();
         return sw.Elapsed.TotalMilliseconds / times;
     }
+//What is the purpose of this code?
+    // The count variable is keeping track of the amount
+    // of work done in the function.  When the function is 
+    // done the count is returned.
 
-    /// <summary>
-    /// The count variable is keeping track of the amount
-    /// of work done in the function.  When the function is 
-    /// done the count is returned.
-    /// </summary>
     /// <param name="size">the amount of work to do</param>
+  
     private static int Algorithm1(int size) {
         var count = 0;
         for (var i = 0; i < size; ++i)
@@ -43,11 +44,11 @@ public static class Algorithms {
         return count;
     }
 
-    /// <summary>
-    /// The count variable is keeping track of the amount
-    /// of work done in the function.  When the function is 
-    /// done the count is returned.
-    /// </summary>
+    //What is the purpose of this code?
+    // The count variable is keeping track of the amount
+    // of work done in the function.  When the function is 
+    // done the count is returned.
+
     /// <param name="size">the amount of work to do</param>
     private static int Algorithm2(int size) {
         var count = 0;
@@ -58,11 +59,11 @@ public static class Algorithms {
         return count;
     }
 
-    /// <summary>
-    /// The count variable is keeping track of the amount
-    /// of work done in the function.  When the function is 
-    /// done the count is returned.
-    /// </summary>
+    //What is the purpose of this code?
+    // The count variable is keeping track of the amount
+    // of work done in the function.  When the function is 
+    // done the count is returned.
+
     /// <param name="size">the amount of work to do</param>
     private static int Algorithm3(int size) {
         var count = 0;

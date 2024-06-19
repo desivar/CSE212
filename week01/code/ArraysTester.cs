@@ -26,15 +26,14 @@ public static class ArraysTester {
         RotateListRight(numbers, 9);
         Console.WriteLine($"<List>{{{string.Join(',', numbers)}}}"); // <List>{1, 2, 3, 4, 5, 6, 7, 8, 9}
     }
-    /// <summary>
-    /// This function will produce a list of size 'length' starting with 'number' followed by multiples of 'number'.  For 
-    /// example, MultiplesOf(7, 5) will result in: {7, 14, 21, 28, 35}.  Assume that length is a positive
-    /// integer greater than 0.
-    /// </summary>
-    /// <returns>array of doubles that are the multiples of the supplied number</returns>
+    
+    // This function will produce a list of size 'length' starting with 'number' followed by multiples of 'number'.  For 
+    // example, MultiplesOf(7, 5) will result in: {7, 14, 21, 28, 35}.  Assume that length is a positive
+    // integer greater than 0.
+    // <returns>array of doubles that are the multiples of the supplied number</returns>
     private static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
+        // To do Problem 1 Start
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
@@ -52,7 +51,7 @@ public static class ArraysTester {
     /// </summary>
     private static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
+        // To do Problem 2 Start
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.

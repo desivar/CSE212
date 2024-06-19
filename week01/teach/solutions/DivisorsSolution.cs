@@ -8,7 +8,7 @@ public static class DivisorsSolution
         Console.WriteLine("<List>{" + string.Join(", ", list1) + "}"); // <List>{1}
     }
 
-    /// <summary>
+    /// Assingment:
     /// Create a list of all divisors for a number including 1
     /// and excluding the number itself. Modulo will be used
     /// to test divisibility.

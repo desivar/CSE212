@@ -12,7 +12,9 @@
         Console.WriteLine(value);
         // Defect(s) Found:
 
-        Console.WriteLine("------------");
+        Console.WriteLine("Not specified");
+        //To fix: Ensure that the queue correctly enqueues and dequeues people based on their turn counts.
+
 
         // Test 2
         // Scenario: Enqueue multiple values and then Dequeue all of them
@@ -30,7 +32,8 @@
         Console.WriteLine(value);
         // Defect(s) Found: 
 
-        Console.WriteLine("------------");
+        Console.WriteLine("Not specified");
+        //to fix: Verify the behavior when adding a person with a different turn count after running the queue.
 
         // Test 3
         // Scenario: Dequeue from an empty Queue
@@ -65,6 +68,7 @@
     private int Dequeue() {
         if (_queue.Count <= 0)
             throw new IndexOutOfRangeException();
+        //To fix: Implement proper handling for an empty queue scenario.
 
         var value = _queue[1];
         _queue.RemoveAt(1);

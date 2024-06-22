@@ -1,4 +1,4 @@
-﻿public static class TakingTurns {
+public static class TakingTurns {
     public static void Test() {
         // TODO Problem 1 - Run test cases and fix the code to match requirements
         // Test Cases
@@ -16,7 +16,9 @@
         while (players.Length > 0)
             players.GetNextPerson();
         // Defect(s) Found: 
-
+        // - Queue is not working as queue but as a stack because it is doing Last in first out
+        //  and it is not sending them to the back of the queue
+        // 
         Console.WriteLine("---------");
 
         // Test 2
@@ -39,7 +41,8 @@
             players.GetNextPerson();
 
         // Defect(s) Found: 
-
+        // - Again queue is working as a stack instead with last in first out order
+        // it is not sending them to the back of the queue with method GetNextPerson()
         Console.WriteLine("---------");
 
         // Test 3
@@ -57,7 +60,8 @@
             // Console.WriteLine(players);
         }
         // Defect(s) Found: 
-
+        // Fail: Again queue is working as a stack instead with last in first out order
+        //      rutns = 0 for infinite turns is not working, person is give only one turn
         Console.WriteLine("---------");
 
          // Test 4
@@ -74,7 +78,8 @@
             // Console.WriteLine(players);
         }
         // Defect(s) Found: 
-
+        // - Fail: Again queue is working as a stack instead with last in first out order
+        //          negative number for infinite turns is not working, person is give only one turn
         Console.WriteLine("---------");
 
         // Test 5
@@ -84,5 +89,6 @@
         players = new TakingTurnsQueue();
         players.GetNextPerson();
         // Defect(s) Found:
+        // Success: No defects found in this case
     }
 }

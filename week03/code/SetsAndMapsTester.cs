@@ -108,6 +108,7 @@ public static class SetsAndMapsTester {
     /// that there were no duplicates) and therefore should not be displayed.
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
+    ///this method display pairs
     private static void DisplayPairs(string[] words) {
         HashSet<string> pairs = new HashSet<string>();
         HashSet<string> reversePairs = new HashSet<string>();
@@ -220,7 +221,7 @@ public static class SetsAndMapsTester {
             return false;
         }
 
-        // add all charcaters from the first word to the dictionary
+        // add all characters from the first word 
         foreach (char letter in a1){
             letters.Add(i, letter);
             i++;

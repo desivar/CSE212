@@ -1,3 +1,4 @@
+using System.Runtime.Intrinsics.Arm;
 using System.Text.Json;
 
 public static class SetsAndMapsTester {
@@ -108,8 +109,41 @@ public static class SetsAndMapsTester {
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     private static void DisplayPairs(string[] words) {
+        HashSet<string> pairs = new HashSet<string>();
+        HashSet<string> reversePairs = new HashSet<string>();
+        
+        foreach (string word in words){
+            // reverse word
+            char[] charArray = word.ToCharArray();
+            Array.Reverse(charArray);
+            var reverse = new string(charArray);
+
+            // add reversed word to a Set
+            reversePairs.Add(reverse);
+
+            // add normal words to a Set
+            pairs.Add(word);
+
+        }
+            
+        // print each pair
+        foreach (var pair in pairs){
+            Console.WriteLine(pair);
+        };
+
+        // print each reversed pair
+        foreach (var pair in reversePairs){
+            Console.WriteLine(pair);
+        }
+
+        foreach (string word in pairs){
+            if (!reversePairs.Add(word)){
+                Console.WriteLine(word + " is a duplicate");
+            };
+        }
+
         // To display the pair correctly use something like:
-        // Console.WriteLine($"{word} & {pair}");
+
         // Each pair of words should displayed on its own line.
     }
 
@@ -127,13 +161,23 @@ public static class SetsAndMapsTester {
     /// #############
     /// # Problem 2 #
     /// #############
-    private static Dictionary<string, int> SummarizeDegrees(string filename) {
-        var degrees = new Dictionary<string, int>();
+    private static Dictionary<int, string> SummarizeDegrees(string filename) {
+        var degrees = new Dictionary<int, string>();
+
+        int i = 1;
         foreach (var line in File.ReadLines(filename)) {
             var fields = line.Split(",");
-            // Todo Problem 2 - ADD YOUR CODE HERE
+            var degree = fields[3];
+            foreach (var field in fields){
+                if (!degrees.ContainsValue(degree)){
+                degrees.Add(i, degree);
+                i++;                    
+                }
+            }
         }
-
+        // foreach (var item in degrees){
+        //     Console.WriteLine(item);
+        // }
         return degrees;
     }
 
@@ -158,12 +202,54 @@ public static class SetsAndMapsTester {
     /// #############
     private static bool IsAnagram(string word1, string word2) {
         // Todo Problem 3 - ADD YOUR CODE HERE
-        return false;
+
+        // create a dictionary that will contain letters
+        var letters = new Dictionary<int, char>();
+        int i = 0;
+
+        // remove all spaces
+        var s1 = word1.Replace(" ", "");
+        var s2 = word2.Replace(" ", "");
+
+        // convert to lowercase
+        var a1 = s1.ToLower();
+        var a2 = s2.ToLower();
+
+        // if the lengh of the strings are not the same, return false
+        if (a1.Length != a2.Length){
+            return false;
+        }
+
+        // add all charcaters from the first word to the dictionary
+        foreach (char letter in a1){
+            letters.Add(i, letter);
+            i++;
+        }
+        // note the index
+        int word1Index = i;
+
+        // if there is a new letter, raise the index
+        foreach (char letter in a2){
+            if (!letters.ContainsValue(letter)){
+                letters.Add(i, letter);
+                i++;
+            }
+        }
+        // the the new index
+        int word2Index = i;
+
+        // if the indexes are the same, then return true, else return false
+        if (word1Index == word2Index){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     /// <summary>
     /// Sets up the maze dictionary for problem 4
     /// </summary>
+
     private static Dictionary<ValueTuple<int, int>, bool[]> SetupMazeMap() {
         Dictionary<ValueTuple<int, int>, bool[]> map = new() {
             { (1, 1), new[] { false, true, false, true } },
@@ -196,8 +282,8 @@ public static class SetsAndMapsTester {
             { (5, 4), new[] { true, false, true, true } },
             { (5, 5), new[] { false, false, true, true } },
             { (5, 6), new[] { false, true, true, false } },
-            { (6, 1), new[] { true, false, false, false } },
-            { (6, 2), new[] { false, false, false, false } },
+            { (6, 1), new[] { false, false, false, false } },
+            { (6, 2), new[] { true, false, false, false } },
             { (6, 3), new[] { true, false, false, false } },
             { (6, 4), new[] { false, false, false, false } },
             { (6, 5), new[] { false, false, false, false } },
@@ -237,3 +323,12 @@ public static class SetsAndMapsTester {
         // 2. Add code below to print out each place a earthquake has happened today and its magitude.
     }
 }
+      
+       
+       
+    
+  
+   
+          
+           
+  

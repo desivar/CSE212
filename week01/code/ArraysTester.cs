@@ -11,6 +11,34 @@ public static class ArraysTester {
         Console.WriteLine($"<double>{{{string.Join(',', multiples)}}}"); // <double>{1.5, 3.0, 4.5, 6.0, 7.5, 9.0, 10.5, 12.0, 13.5, 15.0}
         multiples = MultiplesOf(-2, 10);
         Console.WriteLine($"<double>{{{string.Join(',', multiples)}}}"); // <double>{-2, -4, -6, -8, -10, -12, -14, -16, -18, -20}
+        //solution
+        public static double[] MultiplesOf(double baseNumber, int count)
+{
+    double[] multiples = new double[count];
+    for (int i = 0; i < count; i++)
+    {
+        multiples[i] = baseNumber * (i + 1);
+    }
+    return multiples;
+}
+//example of test
+        public static void Main()
+{
+    double[] multiples = MultiplesOf(7, 5);
+    Console.WriteLine($"<double>{{{string.Join(',', multiples)}}}"); // <double>{7, 14, 21, 28, 35}
+}
+
+public static double[] MultiplesOf(double baseNumber, int count)
+{
+    double[] multiples = new double[count];
+    for (int i = 0; i < count; i++)
+    {
+        multiples[i] = baseNumber * (i + 1);
+    }
+    return multiples;
+}
+//running this test will calculate the multiples of 7 and print the result as {7, 14, 21, 28, 35)
+
 
         Console.WriteLine("\n=========== PROBLEM 2 TESTS ===========");
         List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -56,5 +84,57 @@ public static class ArraysTester {
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
+    }
+}
+
+//solution to second test
+using System;
+using System.Collections.Generic;
+
+public static class ListExtensions
+{
+    public static void RotateListRight<T>(this List<T> list, int positions)
+    {
+        if (list == null || list.Count == 0 || positions <= 0)
+            return;
+
+        int n = list.Count;
+        positions %= n; // Handle cases where positions exceed the list size
+
+        // Reverse the entire list
+        list.Reverse();
+
+        // Reverse the first 'positions' elements
+        list.Reverse(0, positions);
+
+        // Reverse the remaining elements
+        list.Reverse(positions, n - positions);
+    }
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        // Rotate by 1 position
+        numbers.RotateListRight(1);
+        Console.WriteLine($"<List>{{{string.Join(',', numbers)}}}"); // <List>{9, 1, 2, 3, 4, 5, 6, 7, 8}
+
+        // Rotate by 5 positions
+        numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        numbers.RotateListRight(5);
+        Console.WriteLine($"<List>{{{string.Join(',', numbers)}}}"); // <List>{5, 6, 7, 8, 9, 1, 2, 3, 4}
+
+        // Rotate by 3 positions
+        numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        numbers.RotateListRight(3);
+        Console.WriteLine($"<List>{{{string.Join(',', numbers)}}}"); // <List>{7, 8, 9, 1, 2, 3, 4, 5, 6}
+
+        // Rotate by 9 positions (equivalent to no rotation)
+        numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        numbers.RotateListRight(9);
+        Console.WriteLine($"<List>{{{string.Join(',', numbers)}}}"); // <List>{1, 2, 3, 4, 5, 6, 7, 8, 9}
     }
 }

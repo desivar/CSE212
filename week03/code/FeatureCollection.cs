@@ -16,4 +16,4 @@ public class FeatureProperties
 
     
     // Create additional classes as necessary
-}
+

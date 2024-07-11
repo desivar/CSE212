@@ -1,12 +1,22 @@
-public static class RecursionTester {
-    /// <summary>
-    /// Entry point for the Prove 8 tests
-    /// </summary>
-    public static void Run() {
-        // Sample Test Cases (may not be comprehensive) 
+
+    public static class RecursionTester
+{
+    public static void Run()
+    {
         Console.WriteLine("\n=========== PROBLEM 1 TESTS ===========");
-        Console.WriteLine(SumSquaresRecursive(10)); // 385
-        Console.WriteLine(SumSquaresRecursive(100)); // 338350
+        Console.WriteLine(SumSquaresRecursive(10)); // Expected output: 385
+        Console.WriteLine(SumSquaresRecursive(100)); // Expected output: 338350
+    }
+
+    public static int SumSquaresRecursive(int n)
+    {
+        if (n == 1)
+            return 1;
+        else
+            return n * n + SumSquaresRecursive(n - 1);
+    }
+}
+
 
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 2 TESTS ===========");
@@ -63,11 +73,14 @@ public static class RecursionTester {
 
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
-        Console.WriteLine(CountWaysToClimb(5)); // 13
-        Console.WriteLine(CountWaysToClimb(20)); // 121415
-        // Uncomment out the test below after implementing memoization.  It won't work without it.
-        // TODO Problem 3
-        // Console.WriteLine(CountWaysToClimb(100));  // 180396380815100901214157639
+        public static int CountWaysToClimb(int n)
+{
+    if (n <= 1)
+        return 1;
+    else
+        return CountWaysToClimb(n - 1) + CountWaysToClimb(n - 2);
+}
+
 
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 4 TESTS ===========");

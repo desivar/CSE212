@@ -152,6 +152,34 @@ private static void GenerateWildcardBinary(string str, int index, string current
         // (19, 11), (19, 12), (18, 12), (17, 12), (16, 12), (16, 13), (16, 14), (16, 15), 
         // (17, 15), (18, 15), (18, 16), (18, 17), (18, 18), (18, 19), (19, 19)}
     }
+/// public class Maze
+{
+    public int Rows { get; }
+    public int Columns { get; }
+    public int[] Cells { get; }
+
+    public Maze(int rows, int columns, int[] cells)
+    {
+        Rows = rows;
+        Columns = columns;
+        Cells = cells;
+    }
+}
+
+public static void SolveMaze(Maze maze)
+{
+    // Implement your logic to find solutions for navigating through the maze
+    // (Hint: You can use recursion and backtracking)
+    // Print the solutions as specified in the problem statement.
+}
+
+// Example usage:
+// Maze smallMaze = new Maze(3, 3, new[] { 1, 1, 1, 1, 0, 1, 1, 1, 2 });
+// SolveMaze(smallMaze);
+
+// Maze bigMaze = new Maze(20, 20, ...);
+// SolveMaze(bigMaze);
+
 
     /// <summary>
     /// #############

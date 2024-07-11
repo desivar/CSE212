@@ -313,3 +313,31 @@ public static class LinkedListTester {
 
     // Other methods (ToString, etc.) remain unchanged.
 }
+
+         Console.WriteLine("\n=========== PROBLEM 4 TESTS ===========");/// wE Can do it manually
+        Replace value 2 with 10
+ll.Find(2).Value = 10;
+
+        Console.WriteLine(ll.ToString()); // <LinkedList>{4, 35, 10, 10}
+        ll.Replace(7, 5);
+        Console.WriteLine(ll.ToString()); // <LinkedList>{4, 35, 10, 10}
+        ll.Replace(4, 100);
+          ll.Replace(4, 100);
+        Console.WriteLine(ll.ToString()); // <LinkedList>{100, 35, 10, 10}
+
+
+        Console.WriteLine("\n=========== PROBLEM 5 TESTS ===========");
+        Console.WriteLine(ll.Reverse().AsString()); // <IEnumerable>[10, 10, 35, 100}
+    }
+}
+//public LinkedList Reverse()
+{
+    LinkedList reversedList = new LinkedList();
+    var current = head;
+    while (current != null)
+    {
+        reversedList.InsertHead(current.Value);
+        current = current.Next;
+    }
+    return reversedList;
+}

@@ -18,6 +18,8 @@ public static class TreesTester {
         tree.Insert(1);
         tree.Insert(6);
         Console.WriteLine(tree.ToString()); // 1, 3, 4, 5, 6, 7, 10
+        //1, 3, 4, 5, 6, 7, 10 // the code has no errors
+
 
         Console.WriteLine("\n=========== PROBLEM 2 TESTS ===========");
         Console.WriteLine(tree.Contains(3)); // True
@@ -25,18 +27,59 @@ public static class TreesTester {
         Console.WriteLine(tree.Contains(7)); // True
         Console.WriteLine(tree.Contains(6)); // True
         Console.WriteLine(tree.Contains(9)); // False
+        // the program run without problems
 
         Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
         foreach (var value in tree.Reverse()) {
             Console.WriteLine(value); // 10, 7, 6, 5, 4, 3, 1
         }
 
-        Console.WriteLine("\n=========== PROBLEM 4 TESTS ===========");
+        ///
+        public IEnumerable<int> Reverse()
+{
+    Stack<Node> stack = new Stack<Node>();
+    Node current = root;
+
+    while (current != null || stack.Count > 0)
+    {
+        while (current != null)
+        {
+            stack.Push(current);
+            current = current.right; // Traverse right first
+        }
+
+        current = stack.Pop();
+        yield return current.data; // Yield the value
+
+        current = current.left; // Traverse left
+    }
+}
+//
+        
+        Console.WriteLine(tree.GetHeight());  Console.WriteLine("\n=========== PROBLEM 4 TESTS ===========");
         Console.WriteLine(tree.GetHeight()); // 3
         tree.Insert(6);
         Console.WriteLine(tree.GetHeight()); // 3
         tree.Insert(12);
         Console.WriteLine(tree.GetHeight()); // 4
+//
+        public int GetHeight()
+{
+    return GetHeight(root);
+}
+
+private int GetHeight(Node node)
+{
+    if (node == null)
+        return 0;
+
+    int leftHeight = GetHeight(node.left);
+    int rightHeight = GetHeight(node.right);
+
+    return Math.Max(leftHeight, rightHeight) + 1;
+}
+//
+
 
         Console.WriteLine("\n=========== PROBLEM 5 TESTS ===========");
         var tree1 = CreateTreeFromSortedList(new[] { 10, 20, 30, 40, 50, 60 });
@@ -100,3 +143,16 @@ public static class TreesTester {
         // TODO Start Problem 5
     }
 }
+ Console.WriteLine("\n=========== PROBLEM 5 TESTS ===========");
+        var tree1 = CreateTreeFromSortedList(new[] { 10, 20, 30, 40, 50, 60 });
+        var tree2 = CreateTreeFromSortedList(Enumerable.Range(0, 127).ToArray()); // 2^7 - 1 nodes
+        var tree3 = CreateTreeFromSortedList(Enumerable.Range(0, 128).ToArray()); // 2^7 nodes
+        var tree4 = CreateTreeFromSortedList(new[] { 42 });
+        var tree5 = CreateTreeFromSortedList(Array.Empty<int>());
+        Console.WriteLine(tree1.GetHeight()); // 3
+        Console.WriteLine(tree2.GetHeight()); // 7 .. any higher and its not balanced
+        Console.WriteLine(tree3.GetHeight()); // 8 .. any higher and its not balanced
+        Console.WriteLine(tree4.GetHeight()); // 1
+        Console.WriteLine(tree5.GetHeight()); // 0
+    }
+//The code works without any problem

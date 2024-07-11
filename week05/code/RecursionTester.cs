@@ -21,55 +21,31 @@
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 2 TESTS ===========");
         PermutationsChoose("ABCD", 3);
-        // Expected Result (order may be different):
-        // ABC
-        // ABD
-        // ACB
-        // ACD
-        // ADB
-        // ADC
-        // BAC
-        // BAD
-        // BCA
-        // BCD
-        // BDA
-        // BDC
-        // CAB
-        // CAD
-        // CBA
-        // CBD
-        // CDA
-        // CDB
-        // DAB
-        // DAC
-        // DBA
-        // DBC
-        // DCA
-        // DCB
+    public static void PermutationsChoose(string str, int k)
+{
+    GeneratePermutations(str, k, "");
+}
 
-        Console.WriteLine("---------");
-        PermutationsChoose("ABCD", 2);
-        // Expected Result (order may be different):
-        // AB
-        // AC
-        // AD
-        // BA
-        // BC
-        // BD
-        // CA
-        // CB
-        // CD
-        // DA
-        // DB
-        // DC
+private static void GeneratePermutations(string str, int k, string current)
+{
+    if (current.Length == k)
+    {
+        Console.WriteLine(current);
+        return;
+    }
 
-        Console.WriteLine("---------");
-        PermutationsChoose("ABCD", 1);
-        // Expected Result (order may be different):
-        // A
-        // B
-        // C
-        // D
+    for (int i = 0; i < str.Length; i++)
+    {
+        char ch = str[i];
+        GeneratePermutations(str, k, current + ch);
+    }
+}
+
+// Example usage:
+// PermutationsChoose("ABCD", 3);
+// PermutationsChoose("ABCD", 2);
+// PermutationsChoose("ABCD", 1);
+
 
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
@@ -98,6 +74,35 @@
         // 101
         // 110
         // 111
+/// public static void WildcardBinary(string str)
+{
+    GenerateWildcardBinary(str, 0, "");
+}
+
+private static void GenerateWildcardBinary(string str, int index, string current)
+{
+    if (index == str.Length)
+    {
+        Console.WriteLine(current);
+        return;
+    }
+
+    char ch = str[index];
+    if (ch == '*')
+    {
+        GenerateWildcardBinary(str, index + 1, current + '0');
+        GenerateWildcardBinary(str, index + 1, current + '1');
+    }
+    else
+    {
+        GenerateWildcardBinary(str, index + 1, current + ch);
+    }
+}
+
+// Example usage:
+// WildcardBinary("110*0*");
+// WildcardBinary("***");
+
 
         // Sample Test Cases (may not be comprehensive) 
         Console.WriteLine("\n=========== PROBLEM 5 TESTS ===========");

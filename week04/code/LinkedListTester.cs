@@ -1,343 +1,296 @@
-public static class LinkedListTester {
-    public static void Run() {
-        // Sample Test Cases (may not be comprehensive) 
-        Console.WriteLine("\n=========== PROBLEM 1 TESTS ===========");
-        var ll = new LinkedList();
-        ll.InsertTail(1);
-        ll.InsertHead(2);
-        ll.InsertHead(2);
-        ll.InsertHead(2);
-        ll.InsertHead(3);
-        ll.InsertHead(4);
-        ll.InsertHead(5);
+class LinkedList:
+    """
+    Implement the LinkedList data structure.  The Node class below is an 
+    inner class.  An inner class means that its real name is related to 
+    the outer class.  To create a Node object, we will need to 
+    specify LinkedList.Node
+    """
 
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 4, 3, 2, 2, 2, 1};
-        ll.InsertTail(0);
-        ll.InsertTail(-1);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 4, 3, 2, 2, 2, 1, 0, -1};
+    class Node:
+        """
+        Cada node se conecta
+        """
 
-        var ll2 = new LinkedList();
-        ll2.InsertTail(1);
-        Console.WriteLine(ll2.HeadAndTailAreNotNull()); // True
-        ///public class LinkedList
-{
-    private class Node
-    {
-        public int Value { get; set; }
-        public Node Next { get; set; }
+        def __init__(self, data):
+            """ 
+            Initialize the node to the data provided.  Initially
+            the links are unknown so they are set to None.
+            """
+            self.data = data
+            self.next = None
+            self.prev = None
 
-        public Node(int value)
-        {
-            Value = value;
-            Next = null;
-        }
-    }
+    def __init__(self):
+        """
+        Initialize an empty linked list.
+        """
+        self.head = None
+        self.tail = None
 
-    private Node head;
-    private Node tail;
+    def insert_head(self, value):
+        """
+        Insert a new node at the front (i.e. the head) of the
+        linked list.
+        """
+        # Create the new node
+        new_node = LinkedList.Node(value)  
+        
+        # If the list is empty, then point both head and tail
+        # to the new node.
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        # If the list is not empty, then only self.head will be
+        # affected.
+        else:
+            new_node.next = self.head # Connect new node to the previous head
+            self.head.prev = new_node # Connect the previous head to the new node
+            self.head = new_node      # Update the head to point to the new node
 
-    public void InsertHead(int value)
-    {
-        var newNode = new Node(value);
-        newNode.Next = head;
-        head = newNode;
-        if (tail == null)
-            tail = head;
-    }
+    
+    #  Problem 1 #
+    
+    def insert_tail(self, value):
+        """
+        Insert a new node at the back (i.e. the tail) of the 
+        linked list.
+        """
+        # Create the new node
+        new_node = LinkedList.Node(value) 
 
-    public void InsertTail(int value)
-    {
-        var newNode = new Node(value);
-        if (tail == null)
-            head = tail = newNode;
-        else
-        {
-            tail.Next = newNode;
-            tail = newNode;
-        }
-    }
+        #If the list is empty, thent point both tail and head
+        # to the new mode
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        # If the list is not empty, then only self.tail will be
+        # affected
+        else:
+            new_node.prev = self.tail # Connect new node to the previous tail
+            self.tail.next = new_node # Connect the previous tail to the new node
+            self.tail = new_node      # Update the tail to point the new node
 
-    public bool HeadAndTailAreNotNull()
-    {
-        return head != null && tail != null;
-    }
+    ##
 
-    public override string ToString()
-    {
-        var result = new StringBuilder();
-        var current = head;
-        while (current != null)
-        {
-            result.Append(current.Value);
-            if (current.Next != null)
-                result.Append(", ");
-            current = current.Next;
-        }
-        return $"<LinkedList>{{{result}}}";
-    }
-}
-///
+    def remove_head(self):
+        """ 
+        Remove the first node (i.e. the head) of the linked list.
+        """
+        # If the list has only one item in it, then set head and tail 
+        # to None resulting in an empty list.  This condition will also
+        # cover an empty list.  Its okay to set to None again.
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        # If the list has more than one item in it, then only self.head
+        # will be affected.
+        elif self.head is not None:
+            self.head.next.prev = None  # Disconnect the second node from the first node
+            self.head = self.head.next  # Update the head to point to the second node
 
-        Console.WriteLine("\n=========== PROBLEM 2 TESTS ===========");
-        ll.RemoveTail();
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 4, 3, 2, 2, 2, 1, 0}
-        ll.RemoveTail();
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 4, 3, 2, 2, 2, 1}
+    #
+    #  Problem 2 #
+    #
+    def remove_tail(self):
+        """
+        Remove the last node (i.e. the tail) of the linked list.
+        """
+        # If the list had only one item in it, then set tail and head
+        # to None resulting in an empty list. This condition will also
+        # cover an empty list.
+        if self.tail == self.head:
+            self.head = None
+            self.tail = None
+        # If the list had more than one item in it, then only self.tail
+        # will be affected.
+        elif self.tail is not None:
+            self.tail.prev.next = None  # Disconnect the first node from the second node
+            self.tail = self.tail.prev  # Update the tail to point to the first node
 
-        var ll3 = new LinkedList();
-        ll3.RemoveTail();
-        Console.WriteLine(ll3.ToString()); // <LinkedList>{}
-        ll3.InsertHead(2);
-        ll3.RemoveTail();
-        Console.WriteLine(ll3.ToString()); // <LinkedList>{}
-        Console.WriteLine(ll3.HeadAndTailAreNull()); // True
-        ///
-        public class LinkedList
-{
-    private class Node
-    {
-        public int Value { get; set; }
-        public Node Next { get; set; }
+    #
+    # End Problem 2 #
+    #
 
-        public Node(int value)
-        {
-            Value = value;
-            Next = null;
-        }
-    }
+    def insert_after(self, value, new_value):
+        """
+        Insert 'new_value' after the first occurance of 'value' in
+        the linked list.
+        """
+        # Search for the node that matches 'value' by starting at the 
+        # head of the list.
+        curr = self.head
+        while curr is not None:
+            if curr.data == value:
+                # If the location of 'value' is at the end of the list,
+                # then we can call insert_tail to add 'new_value'
+                if curr == self.tail:
+                    self.insert_tail(new_value)
+                # For any other location of 'value', need to create a 
+                # new node and reconenct the links to insert.
+                else:
+                    new_node = LinkedList.Node(new_value)
+                    new_node.prev = curr       # Connect new node to the node containing 'value'
+                    new_node.next = curr.next  # Connect new node to the node after 'value'
+                    curr.next.prev = new_node  # Connect node after 'value' to the new node
+                    curr.next = new_node       # Connect the node containing 'value' to the new node
+                return # We can exit the function after we insert
+            curr = curr.next # Go to the next node to search for 'value'
 
-    private Node head;
-    private Node tail;
-
-    // Other methods (InsertHead, InsertTail, HeadAndTailAreNotNull) remain unchanged.
-
-    public void RemoveTail()
-    {
-        if (head == null)
-            return; // Empty list, nothing to remove
-
-        if (head == tail)
-        {
-            // Only one node in the list
-            head = tail = null;
-            return;
-        }
-
-        // Find the second-to-last node
-        Node current = head;
-        while (current.Next != tail)
-            current = current.Next;
-
-        // Update tail and remove the last node
-        tail = current;
-        tail.Next = null;
-    }
-
-    public bool HeadAndTailAreNull()
-    {
-        return head == null && tail == null;
-    }
-
-    // Other methods (ToString, etc.) remain unchanged.
-}
-//
-
-        Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
-        ll.InsertAfter(3, 35);
-        ll.InsertAfter(5, 6);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 6, 4, 3, 35, 2, 2, 2, 1}
-        ll.Remove(-1);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 6, 4, 3, 35, 2, 2, 2, 1}
-        ll.Remove(3);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 6, 4, 35, 2, 2, 2, 1}
-        ll.Remove(6);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 4, 35, 2, 2, 2, 1}
-        ll.Remove(1);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 4, 35, 2, 2, 2}
-        ll.Remove(7);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{5, 4, 35, 2, 2, 2}
-        ll.Remove(5);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{4, 35, 2, 2, 2}
-        ll.Remove(2);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{4, 35, 2, 2}
-
-        var ll4 = new LinkedList();
-        ll4.Remove(0);
-        Console.WriteLine(ll4.ToString()); // <LinkedList>{}
-        ll4.InsertHead(2);
-        ll4.Remove(2);
-        Console.WriteLine(ll4.ToString()); // <LinkedList>{}
-        Console.WriteLine(ll4.HeadAndTailAreNull()); // True
-        //
-        public class LinkedList
-{
-    private class Node
-    {
-        public int Value { get; set; }
-        public Node Next { get; set; }
-
-        public Node(int value)
-        {
-            Value = value;
-            Next = null;
-        }
-    }
-
-    private Node head;
-    private Node tail;
-
-    // Other methods (InsertHead, InsertTail, HeadAndTailAreNotNull) remain unchanged.
-
-    public void InsertAfter(int targetValue, int newValue)
-    {
-        Node current = head;
-        while (current != null)
-        {
-            if (current.Value == targetValue)
-            {
-                Node newNode = new Node(newValue);
-                newNode.Next = current.Next;
-                current.Next = newNode;
-                if (current == tail)
-                    tail = newNode;
-                break;
-            }
-            current = current.Next;
-        }
-    }
-
-    public void Remove(int value)
-    {
-        if (head == null)
-            return; // Empty list, nothing to remove
-
-        if (head.Value == value)
-        {
-            head = head.Next;
-            if (head == null)
-                tail = null;
-            return;
-        }
-
-        Node current = head;
-        while (current.Next != null)
-        {
-            if (current.Next.Value == value)
-            {
-                current.Next = current.Next.Next;
-                if (current.Next == null)
-                    tail = current;
-                return;
-            }
-            current = current.Next;
-        }
-    }
-
-    public bool HeadAndTailAreNull()
-    {
-        return head == null && tail == null;
-    }
-
-    // Other methods (ToString, etc.) remain unchanged.
-}
-//
-
-       public class LinkedList
-{
-    private class Node
-    {
-        public int Value { get; set; }
-        public Node Next { get; set; }
-
-        public Node(int value)
-        {
-            Value = value;
-            Next = null;
-        }
-    }
-
-    private Node head;
-    private Node tail;
-
-    // Other methods (InsertHead, InsertTail, HeadAndTailAreNotNull) remain unchanged.
-
-    public void InsertAfter(int targetValue, int newValue)
-    {
-        Node current = head;
-        while (current != null)
-        {
-            if (current.Value == targetValue)
-            {
-                Node newNode = new Node(newValue);
-                newNode.Next = current.Next;
-                current.Next = newNode;
-                if (current == tail)
-                    tail = newNode;
-                break;
-            }
-            current = current.Next;
-        }
-    }
-
-    public void Remove(int value)
-    {
-        if (head == null)
-            return; // Empty list, nothing to remove
-
-        if (head.Value == value)
-        {
-            head = head.Next;
-            if (head == null)
-                tail = null;
-            return;
-        }
-
-        Node current = head;
-        while (current.Next != null)
-        {
-            if (current.Next.Value == value)
-            {
-                current.Next = current.Next.Next;
-                if (current.Next == null)
-                    tail = current;
-                return;
-            }
-            current = current.Next;
-        }
-    }
-
-    public bool HeadAndTailAreNull()
-    {
-        return head == null && tail == null;
-    }
-
-    // Other methods (ToString, etc.) remain unchanged.
-}
-
-         Console.WriteLine("\n=========== PROBLEM 4 TESTS ===========");/// wE Can do it manually
-        Replace value 2 with 10
-ll.Find(2).Value = 10;
-
-        Console.WriteLine(ll.ToString()); // <LinkedList>{4, 35, 10, 10}
-        ll.Replace(7, 5);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{4, 35, 10, 10}
-        ll.Replace(4, 100);
-          ll.Replace(4, 100);
-        Console.WriteLine(ll.ToString()); // <LinkedList>{100, 35, 10, 10}
+    #
+    #  Problem 3 #
+    #
+    def remove(self, value):
+        """
+        Remove the first node that contains 'value'.
+        """
+        # Search for the node that matches 'value' by starting at the 
+        # head of the list.
+        curr = self.head
+        while curr is not None:
+            if curr.data == value:
+                # If the location of 'value' is at the end of the list,
+                # then we can call remove_tail to remove 'value'
+                if curr == self.tail:
+                    self.remove_tail()
+                # If the current node is equal to 'value' but it's not
+                # at the head or tail, we can disconnect the current node
+                # from the linked list
+                elif curr != self.head:
+                    curr.next.prev = curr.prev  # Disconnect the previous of the node after the current node from current node
+                    curr.prev.next = curr.next  # Disconnect the next of the node before the current node from the current node
+                # If the location of 'value' is at the beginning of the list,
+                # then we can call remove_head to remove 'value'
+                else:
+                    self.remove_head()
+                return # We can exit the function after we remove
+            curr = curr.next # Go to the next node to search for 'value'
+                
 
 
-        Console.WriteLine("\n=========== PROBLEM 5 TESTS ===========");
-        Console.WriteLine(ll.Reverse().AsString()); // <IEnumerable>[10, 10, 35, 100}
-    }
-}
-//public LinkedList Reverse()
-{
-    LinkedList reversedList = new LinkedList();
-    var current = head;
-    while (current != null)
-    {
-        reversedList.InsertHead(current.Value);
-        current = current.Next;
-    }
-    return reversedList;
-}
+    #
+    # Problem 4 #
+    #
+    def replace(self, old_value, new_value):
+        """
+        Searrch for all instances of 'old_value' and replace the value 
+        to 'new_value'.
+        """
+
+        # Search for the node that matches 'old_value' by starting at the 
+        # head of the list.
+        curr = self.head
+        while curr is not None:
+            # If the current node is equal to 'old_value', we can set the 
+            # current node equal to 'new_value'
+            if curr.data == old_value:
+                curr.data = new_value
+            curr = curr.next # Go to the next node to search for 'old_value'
+        return # We can exit the function after we replace the value to 'new_value'
+            
+    #
+    #
+
+    def __iter__(self):
+        """
+        Iterate foward through the Linked List
+        """
+        curr = self.head  # Start at the begining since this is a forward iteration.
+        while curr is not None:
+            yield curr.data  # Provide (yield) each item to the user
+            curr = curr.next # Go forward in the linked list
+
+    #
+    # Problem 5 #
+    #
+    def __reversed__(self):
+        """
+        Iterate backward through the Linked List
+        """
+        curr = self.tail    # Start at the end since this is backward iteration
+        while curr is not None:
+            yield curr.data  # Provide (yield) each item to the user
+            curr = curr.prev # Go backward in the linked list
+
+    #
+    #
+
+    def __str__(self):
+        """
+        Return a string representation of the linked list.
+        """
+        output = "linkedlist["
+        first = True
+        for value in self:
+            if first:
+                first = False
+            else:
+                output += ", "
+            output += str(value)
+        output += "]"
+        return output
+
+    
+# Sample Test Cases (may not be comprehensive) 
+print("\n=========== PROBLEM 1 TESTS ===========")
+ll = LinkedList()
+ll.insert_tail(1)
+ll.insert_head(2)
+ll.insert_head(2)
+ll.insert_head(2)
+ll.insert_head(3)
+ll.insert_head(4)
+ll.insert_head(5)
+print(ll) # linkedlist[5, 4, 3, 2, 2, 2, 1]
+ll.insert_tail(0)
+ll.insert_tail(-1)
+print(ll) # linkedlist[5, 4, 3, 2, 2, 2, 1, 0, -1]
+
+print("\n=========== PROBLEM 2 TESTS ===========")
+ll.remove_tail()
+print(ll) # linkedlist[5, 4, 3, 2, 2, 2, 1, 0]
+ll.remove_tail()
+print(ll) # linkedlist[5, 4, 3, 2, 2, 2, 1]
+
+print("\n=========== PROBLEM 3 TESTS ===========")
+ll.insert_after(3, 3.5)
+ll.insert_after(5, 6)
+print(ll) # linkedlist[5, 6, 4, 3, 3.5, 2, 2, 2, 1]
+ll.remove(-1)
+print(ll) # linkedlist[5, 6, 4, 3, 3.5, 2, 2, 2, 1]
+ll.remove(3)
+print(ll) # linkedlist[5, 6, 4, 3.5, 2, 2, 2, 1]
+ll.remove(6)
+print(ll) # linkedlist[5, 4, 3.5, 2, 2, 2, 1]
+ll.remove(1)
+print(ll) # linkedlist[5, 4, 3.5, 2, 2, 2]
+ll.remove(7)
+print(ll) # linkedlist[5, 4, 3.5, 2, 2, 2]
+ll.remove(5)
+print(ll) # linkedlist[4, 3.5, 2, 2, 2]
+ll.remove(2)
+print(ll) # linkedlist[4, 3.5, 2, 2]
+
+print("\n=========== PROBLEM 4 TESTS ===========")
+ll.replace(2, 10)
+print(ll) # linkedlist[4, 3.5, 10, 10]
+ll.replace(7, 5)
+print(ll) # linkedlist[4, 3.5, 10, 10]
+ll.replace(4, 100)
+print(ll) # linkedlist[100, 3.5, 10, 10]
+
+
+print("\n=========== PROBLEM 5 TESTS ===========")
+print(list(reversed(ll)))  # [10, 10, 3.5, 100]    
+
+  
+     
+
+       
+              
+
+       
+
+   
+     
+            
+  

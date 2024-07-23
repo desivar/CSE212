@@ -1,383 +1,145 @@
-class BST:
-    """
-    Implement the Binary Search Tree (BST) data structure.  The Node 
-    class below is an inner class.  An inner class means that its real 
-    name is related to the outer class.  To create a Node object, we will 
-    need to specify BST.Node
-    """
+using System;
+using System.Collections.Generic;
 
-    class Node:
-        """
-        Each node of the BST will have data and links to the 
-        left and right sub-tree. arbol con ramas
-        """
+public static class TreesTester
+{
+    /// <summary>
+    /// Entry point for the Prove 9 tests
+    /// </summary>
+    public static void Run()
+    {
+        // Sample Test Cases (may not be comprehensive)
+        Console.WriteLine("\n=========== PROBLEM 1 TESTS ===========");
+        BinarySearchTree tree = new BinarySearchTree();
+        tree.Insert(5);
+        tree.Insert(3);
+        tree.Insert(7);
+        // After implementing 'no duplicates' rule,
+        // this next insert will have no effect on the tree.
+        tree.Insert(7);
+        tree.Insert(4);
+        tree.Insert(10);
+        tree.Insert(1);
+        tree.Insert(6);
+        Console.WriteLine(tree.ToString()); // 1, 3, 4, 5, 6, 7, 10
 
-        def __init__(self, data):
-            """ 
-            Initialize the node to the data provided.  Initially
-            the links are unknown so they are set to None.
-            """
-       
-            self.data = data
-            self.left = None
-            self.right = None
+        Console.WriteLine("\n=========== PROBLEM 2 TESTS ===========");
+        Console.WriteLine(tree.Contains(3)); // True
+        Console.WriteLine(tree.Contains(2)); // False
+        Console.WriteLine(tree.Contains(7)); // True
+        Console.WriteLine(tree.Contains(6)); // True
+        Console.WriteLine(tree.Contains(9)); // False
 
-    def __init__(self):
-        """
-        Initialize an empty BST.
-        """
-        self.root = None
+        Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
+        foreach (var value in tree.Reverse())
+        {
+            Console.WriteLine(value); // 10, 7, 6, 5, 4, 3, 1
+        }
+    }
+}
 
-    def insert(self, data):
-        """
-        Insert 'data' into the BST.  If the BST
-        is empty, then set the root equal to the new 
-        node.  Otherwise, use _insert to recursively
-        find the location to insert.
-        """
-        if self.root is None:
-            self.root = BST.Node(data)
-        else:
-            self._insert(data, self.root)  # Start at the root
+public class BinarySearchTree
+{
+    private class Node
+    {
+        public int Value;
+        public Node Left;
+        public Node Right;
 
-    #
-    # Problem 1 #
-    ##
-    def _insert(self, data, node):
-        """
-        This function will look for a place to insert a node
-        with 'data' inside of it.  The current sub-tree is
-        represented by 'node'.  This function is intended to be
-        called the first time by the insert function.
-        """
-        #Check if data is not equal to the current node value. That avoids repeating value.
-        if data != node.data:
+        public Node(int value)
+        {
+            Value = value;
+        }
+    }
 
-            if data < node.data:
-                # The data belongs on the left side.
-                if node.left is None:
-                    # We found an empty spot
-                    node.left = BST.Node(data)
-                else:
-                    # Need to keep looking.  Call _insert
-                    # recursively on the left sub-tree.
-                    self._insert(data, node.left)
-            else:
-                # The data belongs on the right side.
-                if node.right is None:
-                    # We found an empty spot
-                    node.right = BST.Node(data)
-                else:
-                    # Need to keep looking.  Call _insert
-                    # recursively on the right sub-tree.
-                    self._insert(data, node.right)
-    
-    #
-    #
+    private Node root;
 
-    def __contains__(self, data):
-        """ 
-        Checks if data is in the BST.  This function
-        supports the ability to use the 'in' keyword:
+    public void Insert(int value)
+    {
+        root = Insert(root, value);
+    }
 
-        if 5 in my_bst:
-            ("5 is in the bst")
+    private Node Insert(Node node, int value)
+    {
+        if (node == null)
+        {
+            return new Node(value);
+        }
 
-        """
-        return self._contains(data, self.root)  # Start at the root
+        if (value < node.Value)
+        {
+            node.Left = Insert(node.Left, value);
+        }
+        else if (value > node.Value)
+        {
+            node.Right = Insert(node.Right, value);
+        }
 
-    ##
-    # Problem 2 #
-    ##
-    def _contains(self, data, node):
-        """
-        This funciton will search for a node that contains
-        'data'.  The current sub-tree being search is 
-        represented by 'node'.  This function is intended
-        to be called the first time by the __contains__ function.
-        """
-        # Check if current node is empty
-        if node.data is None:
-            return False
-        #Check if data is equal to the current node value. If it's, return True.
-        if data == node.data:
-            return True
+        // If value == node.Value, do nothing (no duplicates)
+        return node;
+    }
 
-        if data < node.data:
-            # The data belongs on the left side
-            # Check if we have an empty spot. If we do, return False. It means the value is not in the tree.
-            if node.left is None:
-                return False  
+    public bool Contains(int value)
+    {
+        return Contains(root, value);
+    }
 
-            else:
-                # Need to keep looking.  Call _contains
-                # recursively on the left sub-tree.
-                if self._contains(data, node.left): #If data is equal to the child node of the current node, return True.
-                    return True
-            
-        else:
-            # The data belongs on the right side.
-            # Check if we have an empty spot. If we do, return False. It means the value is not in the tree.
-            if node.right is None:
-                return False
+    private bool Contains(Node node, int value)
+    {
+        if (node == null)
+        {
+            return false;
+        }
 
-            else:
-                # Need to keep looking.  Call _contains
-                # recursively on the right sub-tree.
-                if self._contains(data, node.right): #If data is equal to the child node of the current node, return True.
-                    return True
-        
-    ##
-    ##
+        if (value < node.Value)
+        {
+            return Contains(node.Left, value);
+        }
+        else if (value > node.Value)
+        {
+            return Contains(node.Right, value);
+        }
+        else
+        {
+            return true;
+        }
+    }
 
-    def __iter__(self):
-        """
-        Perform a forward traversal (in order traversal) starting from 
-	    the root of the BST.  This is called a generator function.
-        This function is called when a loop	is performed:
+    public override string ToString()
+    {
+        var values = new List<int>();
+        InOrderTraversal(root, values);
+        return string.Join(", ", values);
+    }
 
-        for value in my_bst:
-            print(value)
+    private void InOrderTraversal(Node node, List<int> values)
+    {
+        if (node == null)
+        {
+            return;
+        }
 
-        """
-        yield from self._traverse_forward(self.root)  # Start at the root
-        
-    def _traverse_forward(self, node):
-        """
-        Does a forward traversal (in-order traversal) through the 
-        BST.  If the node that we are given (which is the current
-        sub-tree) exists, then we will keep traversing on the left
-        side (thus getting the smaller numbers first), then we will 
-        provide the data in the current node, and finally we will 
-        traverse on the right side (thus getting the larger numbers last).
+        InOrderTraversal(node.Left, values);
+        values.Add(node.Value);
+        InOrderTraversal(node.Right, values);
+    }
 
-        The use of the 'yield' will allow this function to support loops
-        like:
+    public IEnumerable<int> Reverse()
+    {
+        var values = new List<int>();
+        ReverseInOrderTraversal(root, values);
+        return values;
+    }
 
-        for value in my_bst:
-            print(value)
+    private void ReverseInOrderTraversal(Node node, List<int> values)
+    {
+        if (node == null)
+        {
+            return;
+        }
 
-        The keyword 'yield' will return the value for the 'for' loop to
-	    use.  When the 'for' loop wants to get the next value, the code in
-	    this function will start back up where the last 'yield' returned a 
-	    value.  The keyword 'yield from' is used when our generator function
-        needs to call another function for which a `yield` will be called.  
-        In other words, the `yield` is delegated by the generator function
-        to another function.
-
-        This function is intended to be called the first time by 
-        the __iter__ function.
-        """
-        if node is not None:
-            yield from self._traverse_forward(node.left)
-            yield node.data
-            yield from self._traverse_forward(node.right)
-        
-    def __reversed__(self):
-        """
-        Perform a formward traversal (in order traversal) starting from 
-        the root of the BST.  This function is called when a the 
-        reversed function is called and is frequently used with a for
-        loop.
-
-        for value in reversed(my_bst):
-            print(value)
-
-        """        
-        yield from self._traverse_backward(self.root)  # Start at the root
-
-    ##
-    #  Problem 3 #
-    ##
-    def _traverse_backward(self, node):
-        """
-        Does a backwards traversal (reverse in-order traversal) through the 
-        BST.  If the node that we are given (which is the current
-        sub-tree) exists, then we will keep traversing on the right
-        side (thus getting the larger numbers first), then we will 
-        provide the data in the current node, and finally we will 
-        traverse on the left side (thus getting the smaller numbers last).
-
-        This function is intended to be called the first time by 
-        the __reversed__ function.        
-        """
-        if node is not None:
-            yield from self._traverse_backward(node.right)
-            yield node.data
-            yield from self._traverse_backward(node.left)
-
-    ##
-    ##
-
-    def get_height(self):
-        """
-        Determine the height of the BST.  Note that an empty tree
-        will have a height of 0 and a tree with one item (root) will
-        have a height of 1.
-        
-        If the tree is empty, then return 0.  Otherwise, call 
-        _get_height on the root which will recursively determine the 
-        height of the tree.
-        """
-        if self.root is None:
-            return 0
-        else:
-            return self._get_height(self.root)  # Start at the root
-
-    ##
-    # Problem 4 #
-    ##
-    def _get_height(self, node):
-        """
-        Determine the height of the BST.  The height of a sub-tree 
-        (represented by 'node') is 1 plus the height of either the 
-        left sub-tree or the right sub-tree (whichever one is bigger).
-
-        This function intended to be called the first time by 
-        get_height.
-        """
-        # Base Case. Return 1 if only the root exists.
-        if node.left is None and node.right is None:
-            return 1
-
-        #Solve with recursion. Smaller Problem.
-        # Check if the left subtree is empty. Use recursion with the right subtree
-        if node.left is None:
-            return 1 + self._get_height(node.right)
-        # Check if the right subtree is empty. Use recursion with the left subtree
-        if node.right is None:
-            return 1 + self._get_height(node.left)
-        # If neither left subtree nor right subtree were empty, use recursion on both subtrees 
-        x = 1 + self._get_height(node.right)
-        y = 1 + self._get_height(node.left)
-        # Check what subtree has a bigger height and return its value
-        if x > y:
-            return x
-        else:
-            return y
-        
-    ##
-    ##
-
-
-# These functions  are not part of the BST class above. 
-
-def create_bst_from_sorted_list(sorted_list):
-    """
-    Given a sorted list (sorted_list), create a balanced BST.  If 
-    the values in the sorted_list were inserted in order from left
-    to right into the BST, then it would resemble a linked list (unbalanced). 
-    To get a balanced BST, the _insert_middle function is called to 
-    find the middle item in the list to add first to the BST.  The 
-    _insert_middle function takes the whole list but also takes a 
-    range (first to last) to consider.  For the first call, the full 
-    range of 0 to len()-1 used.
-    """
-    bst = BST()  # Create an empty BST to start with 
-    _insert_middle(sorted_list, 0, len(sorted_list)-1, bst)
-    return bst
-
-##
-# Problem 5 #
-##
-def _insert_middle(sorted_list, first, last, bst):
-    """
-    This function will attempt to insert the item in the middle
-    of 'sorted_list' into the 'bst' tree.  The middle is 
-    determined by using indicies represented by 'first' and 'last'.
-    For example, if the function was called on:
-
-    sorted_list = [10, 20, 30, 40, 50, 60]
-    first = 0
-    last = 5
-
-    then the value 30 (index 2 which is the middle) would be added 
-    to the 'bst' (the insert function above can be used to do this).   
-
-    Subsequent recursive calls are made to insert the middle from the values 
-    before 30 and the values after 30.  If done correctly, the order
-    in which values are added (which results in a balanced bst) will be:
-
-    30, 10, 20, 50, 40, 60
-
-    This function is intended to be called the first time by 
-    create_bst_from_sorted_list.
-
-    The purpose for having the first and last parameters is so that we do 
-    not need to create new sublists when we make recursive calls.  Avoid 
-    using list slicing to create sublists to solve this problem.
-
-    """
-    # Base Case. Whenever the index 'first' is greater than the index 'last', return bst
-    if first > last:
-        return bst
-    
-    # Store the index for the value that will be inserted in the tree into a variable. 
-    # Index is found by taking an average of the first and last
-    x = int((last + first)/2)
-    
-    # Insert the value in the list with the index 'x' in the 'bst' tree
-    bst.insert(sorted_list[x])
-
-    #Solve with recursion. Smaller Problem.
-    # Take as parameters the same sorted_list, the index 'first', the index 'x' minus 1 and the 'bst' tree
-    _insert_middle(sorted_list, first, x - 1, bst)
-
-    # Take as parameters the same sorted_list, the index 'x' plus 1, the index 'last' and the 'bst' tree
-    _insert_middle(sorted_list, x + 1, last, bst)
-
-##
-##
-
-
-# Exaamples Test Cases (may not be comprehensive) 
-print("\n=========== PROBLEM 1 TESTS ===========")
-tree = BST()
-tree.insert(5)
-tree.insert(3)
-tree.insert(7)
-# After implementing 'no duplicates' rule,
-# this next insert will have no effect on the tree.
-tree.insert(7)  
-tree.insert(4)
-tree.insert(10)
-tree.insert(1)
-tree.insert(6)
-for x in tree:
-    print(x)  # 1, 3, 4, 5, 6, 7, 10
-
-print("\n=========== PROBLEM 2 TESTS ===========")
-print(3 in tree) # True
-print(2 in tree) # False
-print(7 in tree) # True
-print(6 in tree) # True
-print(9 in tree) # False
-
-print("\n=========== PROBLEM 3 TESTS ===========")
-for x in reversed(tree):
-    print(x)  # 10, 7, 6, 5, 4, 3, 1
-
-print("\n=========== PROBLEM 4 TESTS ===========")
-print(tree.get_height()) # 3
-tree.insert(6)
-print(tree.get_height()) # 3
-tree.insert(12)
-print(tree.get_height()) # 4
-
-print("\n=========== PROBLEM 5 TESTS ===========")
-tree1 = create_bst_from_sorted_list([10, 20, 30, 40, 50, 60])
-tree2 = create_bst_from_sorted_list([x for x in range(127)]) # 2^7 - 1 nodes
-tree3 = create_bst_from_sorted_list([x for x in range(128)]) # 2^7 nodes
-tree4 = create_bst_from_sorted_list([42])
-tree5 = create_bst_from_sorted_list([])
-print(tree1.get_height()) # 3
-print(tree2.get_height()) # 7 .. any higher and its not balanced
-print(tree3.get_height()) # 8 .. any higher and its not balanced
-print(tree4.get_height()) # 1
-print(tree5.get_height()) # 0
-
-
-
-
-
-   
+        ReverseInOrderTraversal(node.Right, values);
+        values.Add(node.Value);
+        ReverseInOrderTraversal(node.Left, values);
+    }
+}

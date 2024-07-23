@@ -48,7 +48,7 @@ class LinkedList:
             self.head = new_node      # Update the head to point to the new node
 
     
-    #  Problem 1 #
+    // Problem 1 //
     
     def insert_tail(self, value):
         """
@@ -70,8 +70,7 @@ class LinkedList:
             self.tail.next = new_node # Connect the previous tail to the new node
             self.tail = new_node      # Update the tail to point the new node
 
-    ##
-
+//
     def remove_head(self):
         """ 
         Remove the first node (i.e. the head) of the linked list.
@@ -88,9 +87,9 @@ class LinkedList:
             self.head.next.prev = None  # Disconnect the second node from the first node
             self.head = self.head.next  # Update the head to point to the second node
 
-    #
-    #  Problem 2 #
-    #
+    //
+    // Problem 2 //
+    //
     def remove_tail(self):
         """
         Remove the last node (i.e. the tail) of the linked list.
@@ -107,9 +106,9 @@ class LinkedList:
             self.tail.prev.next = None  # Disconnect the first node from the second node
             self.tail = self.tail.prev  # Update the tail to point to the first node
 
-    #
-    # End Problem 2 #
-    #
+    //
+    // End Problem 2 #
+    //
 
     def insert_after(self, value, new_value):
         """
@@ -136,9 +135,9 @@ class LinkedList:
                 return # We can exit the function after we insert
             curr = curr.next # Go to the next node to search for 'value'
 
-    #
-    #  Problem 3 #
-    #
+    //
+    // Problem 3 
+    //
     def remove(self, value):
         """
         Remove the first node that contains 'value'.
@@ -167,9 +166,9 @@ class LinkedList:
                 
 
 
-    #
-    # Problem 4 #
-    #
+    //
+    // Problem 4 
+    //
     def replace(self, old_value, new_value):
         """
         Searrch for all instances of 'old_value' and replace the value 
@@ -187,9 +186,7 @@ class LinkedList:
             curr = curr.next # Go to the next node to search for 'old_value'
         return # We can exit the function after we replace the value to 'new_value'
             
-    #
-    #
-
+    //
     def __iter__(self):
         """
         Iterate foward through the Linked List
@@ -199,9 +196,9 @@ class LinkedList:
             yield curr.data  # Provide (yield) each item to the user
             curr = curr.next # Go forward in the linked list
 
-    #
-    # Problem 5 #
-    #
+    //
+    // Problem 5 //
+    //
     def __reversed__(self):
         """
         Iterate backward through the Linked List
@@ -211,8 +208,7 @@ class LinkedList:
             yield curr.data  # Provide (yield) each item to the user
             curr = curr.prev # Go backward in the linked list
 
-    #
-    #
+    //
 
     def __str__(self):
         """

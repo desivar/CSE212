@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class RecursionTester {
     /// <summary>
-    /// Entry point for the Prove 8 tests
+    /// Entry point for the Prove 8 tests.
     /// </summary>
     public static void Run() {
         // Sample Test Cases (may not be comprehensive) 
@@ -23,16 +23,16 @@ public static class RecursionTester {
         Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
         Console.WriteLine(CountWaysToClimb(5)); // 13
         Console.WriteLine(CountWaysToClimb(20)); // 121415
-        // Uncomment out the test below after implementing memoization.  It won't work without it.
+        // Uncomment out the test below after implementing memoization. It won't work without it.
         // TODO Problem 3
         // Console.WriteLine(CountWaysToClimb(100));  // 180396380815100901214157639
     }
 
     /// <summary>
-    /// Recursively calculates the sum of squares of numbers from 1 to n
+    /// Recursively calculates the sum of squares of numbers from 1 to n.
     /// </summary>
-    /// <param name="n">The upper limit of the range</param>
-    /// <returns>The sum of squares from 1 to n</returns>
+    /// <param name="n">The upper limit of the range.</param>
+    /// <returns>The sum of squares from 1 to n.</returns>
     public static int SumSquaresRecursive(int n) {
         if (n <= 0) {
             return 0;
@@ -41,14 +41,23 @@ public static class RecursionTester {
     }
 
     /// <summary>
-    /// Generates all permutations of the given string of length k
+    /// Generates all permutations of the given string of length k.
     /// </summary>
-    /// <param name="str">The input string</param>
-    /// <param name="k">The length of permutations</param>
+    /// <param name="str">The input string.</param>
+    /// <param name="k">The length of permutations.</param>
     public static void PermutationsChoose(string str, int k) {
+        if (k < 0 || k > str.Length) {
+            throw new ArgumentException("Invalid value for k.");
+        }
         PermutationsChooseHelper(str, "", k);
     }
 
+    /// <summary>
+    /// Helper method to generate permutations of the given string of length k.
+    /// </summary>
+    /// <param name="str">The input string.</param>
+    /// <param name="prefix">The current prefix.</param>
+    /// <param name="k">The length of permutations.</param>
     private static void PermutationsChooseHelper(string str, string prefix, int k) {
         if (k == 0) {
             Console.WriteLine(prefix);
@@ -60,16 +69,25 @@ public static class RecursionTester {
     }
 
     /// <summary>
-    /// Calculates the number of ways to climb a staircase with n steps, 
-    /// where you can take 1, 2, or 3 steps at a time
+    /// Calculates the number of ways to climb a staircase with n steps,
+    /// where you can take 1, 2, or 3 steps at a time.
     /// </summary>
-    /// <param name="n">The number of steps</param>
-    /// <returns>The number of ways to climb the staircase</returns>
+    /// <param name="n">The number of steps.</param>
+    /// <returns>The number of ways to climb the staircase.</returns>
     public static int CountWaysToClimb(int n) {
+        if (n < 0) {
+            throw new ArgumentException("Number of steps cannot be negative.");
+        }
         int[] memo = new int[n + 1];
         return CountWaysToClimbHelper(n, memo);
     }
 
+    /// <summary>
+    /// Helper method to calculate the number of ways to climb a staircase with n steps.
+    /// </summary>
+    /// <param name="n">The number of steps.</param>
+    /// <param name="memo">The memoization array.</param>
+    /// <returns>The number of ways to climb the staircase.</returns>
     private static int CountWaysToClimbHelper(int n, int[] memo) {
         if (n < 0) {
             return 0;
@@ -89,11 +107,6 @@ class Program {
         RecursionTester.Run();
     }
 }
-
-
-
-    
-
 
 
 

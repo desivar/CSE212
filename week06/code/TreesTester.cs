@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-
-public static class TreesTester
-{
+public static class TreesTester {
     /// <summary>
     /// Entry point for the Prove 9 tests
     /// </summary>
-    public static void Run()
-    {
+    public static void Run() {
         // Sample Test Cases (may not be comprehensive)
         Console.WriteLine("\n=========== PROBLEM 1 TESTS ===========");
         BinarySearchTree tree = new BinarySearchTree();
@@ -16,6 +11,7 @@ public static class TreesTester
         tree.Insert(7);
         // After implementing 'no duplicates' rule,
         // this next insert will have no effect on the tree.
+        // TODO Problem 1
         tree.Insert(7);
         tree.Insert(4);
         tree.Insert(10);
@@ -31,115 +27,52 @@ public static class TreesTester
         Console.WriteLine(tree.Contains(9)); // False
 
         Console.WriteLine("\n=========== PROBLEM 3 TESTS ===========");
-        foreach (var value in tree.Reverse())
-        {
+        foreach (var value in tree.Reverse()) {
             Console.WriteLine(value); // 10, 7, 6, 5, 4, 3, 1
         }
-    }
-}
 
-public class BinarySearchTree
-{
-    private class Node
-    {
-        public int Value;
-        public Node Left;
-        public Node Right;
+        Console.WriteLine("\n=========== PROBLEM 4 TESTS ===========");
+        Console.WriteLine(tree.GetHeight()); // 3
+        tree.Insert(6);
+        Console.WriteLine(tree.GetHeight()); // 3
+        tree.Insert(12);
+        Console.WriteLine(tree.GetHeight()); // 4
 
-        public Node(int value)
-        {
-            Value = value;
-        }
-    }
+    
+        // ...
 
-    private Node root;
+        Console.WriteLine("\n=========== PROBLEM 5 TESTS ===========");
+        var tree1 = CreateTreeFromSortedList(new[] { 10, 20, 30, 40, 50, 60 });
+        var tree2 = CreateTreeFromSortedList(Enumerable.Range(0, 127).ToArray());
+        var tree3 = CreateTreeFromSortedList(Enumerable.Range(0, 128).ToArray());
+        var tree4 = CreateTreeFromSortedList(new[] { 42 });
+        var tree5 = CreateTreeFromSortedList(Array.Empty<int>());
 
-    public void Insert(int value)
-    {
-        root = Insert(root, value);
-    }
-
-    private Node Insert(Node node, int value)
-    {
-        if (node == null)
-        {
-            return new Node(value);
-        }
-
-        if (value < node.Value)
-        {
-            node.Left = Insert(node.Left, value);
-        }
-        else if (value > node.Value)
-        {
-            node.Right = Insert(node.Right, value);
-        }
-
-        // If value == node.Value, do nothing (no duplicates)
-        return node;
+        Console.WriteLine(tree1.GetHeight()); // 3
+        Console.WriteLine(tree2.GetHeight()); // 7 (maximum balanced height)
+        Console.WriteLine(tree3.GetHeight()); // 8 (maximum balanced height)
+        Console.WriteLine(tree4.GetHeight()); // 1
+        Console.WriteLine(tree5.GetHeight()); // 0
     }
 
-    public bool Contains(int value)
+    private static BinarySearchTree CreateTreeFromSortedList(int[] sortedNumbers)
     {
-        return Contains(root, value);
+        var bst = new BinarySearchTree(); // Create an empty BST
+        if (sortedNumbers.Length > 0)
+            InsertMiddle(sortedNumbers, 0, sortedNumbers.Length - 1, bst);
+        return bst;
     }
 
-    private bool Contains(Node node, int value)
+    private static void InsertMiddle(int[] sortedNumbers, int first, int last, BinarySearchTree bst)
     {
-        if (node == null)
-        {
-            return false;
-        }
-
-        if (value < node.Value)
-        {
-            return Contains(node.Left, value);
-        }
-        else if (value > node.Value)
-        {
-            return Contains(node.Right, value);
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    public override string ToString()
-    {
-        var values = new List<int>();
-        InOrderTraversal(root, values);
-        return string.Join(", ", values);
-    }
-
-    private void InOrderTraversal(Node node, List<int> values)
-    {
-        if (node == null)
-        {
+        if (first > last)
             return;
-        }
 
-        InOrderTraversal(node.Left, values);
-        values.Add(node.Value);
-        InOrderTraversal(node.Right, values);
-    }
+        int mid = (first + last) / 2; // Find the middle index
+        bst.Insert(sortedNumbers[mid]); // Add middle value to the tree
 
-    public IEnumerable<int> Reverse()
-    {
-        var values = new List<int>();
-        ReverseInOrderTraversal(root, values);
-        return values;
-    }
-
-    private void ReverseInOrderTraversal(Node node, List<int> values)
-    {
-        if (node == null)
-        {
-            return;
-        }
-
-        ReverseInOrderTraversal(node.Right, values);
-        values.Add(node.Value);
-        ReverseInOrderTraversal(node.Left, values);
+        // Recursively build left and right subtrees
+        InsertMiddle(sortedNumbers, first, mid - 1, bst); // Left half
+        InsertMiddle(sortedNumbers, mid + 1, last, bst); // Right half
     }
 }

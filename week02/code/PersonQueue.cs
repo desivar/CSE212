@@ -1,5 +1,5 @@
 /// <summary>
-/// A basic implementation of a Queue
+/// A basic implementation of a Queue.
 /// </summary>
 public class PersonQueue
 {
@@ -8,24 +8,37 @@ public class PersonQueue
     public int Length => _queue.Count;
 
     /// <summary>
-    /// Add a person to the queue
+    /// Add a person to the queue.
     /// </summary>
-    /// <param name="person">The person to add</param>
+    /// <param name="person">The person to add.</param>
     public void Enqueue(Person person)
     {
-        _queue.Insert(0, person);
+        _queue.Add(person); // Add to the end of the list
     }
 
+    /// <summary>
+    /// Remove a person from the queue.
+    /// </summary>
+    /// <returns>The person removed from the front of the queue.</returns>
     public Person Dequeue()
     {
-        var person = _queue[0];
-        _queue.RemoveAt(0);
+        if (IsEmpty())
+        {
+            throw new InvalidOperationException("Queue is empty.");
+        }
+
+        var person = _queue[0]; // Get the first person
+        _queue.RemoveAt(0); // Remove from the front
         return person;
     }
 
+    /// <summary>
+    /// Check if the queue is empty.
+    /// </summary>
+    /// <returns>True if the queue is empty; otherwise, false.</returns>
     public bool IsEmpty()
     {
-        return Length == 0;
+        return _queue.Count == 0;
     }
 
     public override string ToString()
@@ -33,3 +46,6 @@ public class PersonQueue
         return $"[{string.Join(", ", _queue)}]";
     }
 }
+
+
+  

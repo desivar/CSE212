@@ -1,4 +1,4 @@
-﻿public class PriorityQueue
+public class PriorityQueue
 {
     private List<PriorityItem> _queue = new();
 
@@ -15,6 +15,10 @@
         _queue.Add(newNode);
     }
 
+    /// <summary>
+    /// Remove and return the item with the highest priority (lowest value).
+    /// </summary>
+    /// <returns>The item with the highest priority.</returns>
     public string Dequeue()
     {
         if (_queue.Count == 0) // Verify the queue is not empty
@@ -24,23 +28,31 @@
 
         // Find the index of the item with the highest priority to remove
         var highPriorityIndex = 0;
-        for (int index = 1; index < _queue.Count - 1; index++)
+        for (int index = 1; index < _queue.Count; index++)
         {
-            if (_queue[index].Priority >= _queue[highPriorityIndex].Priority)
+            if (_queue[index].Priority < _queue[highPriorityIndex].Priority)
                 highPriorityIndex = index;
         }
 
         // Remove and return the item with the highest priority
         var value = _queue[highPriorityIndex].Value;
+        _queue.RemoveAt(highPriorityIndex);
         return value;
     }
 
+    /// <summary>
+    /// Provide a string representation of the queue.
+    /// </summary>
+    /// <returns>A string representation of the queue.</returns>
     public override string ToString()
     {
         return $"[{string.Join(", ", _queue)}]";
     }
 }
 
+/// <summary>
+/// Represents an item in the priority queue.
+/// </summary>
 internal class PriorityItem
 {
     internal string Value { get; set; }

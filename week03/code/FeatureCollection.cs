@@ -1,17 +1,17 @@
-
-    public class FeatureCollection {
-    // Todo Earthquake Problem - ADD YOUR CODE HERE
-    // Create additional classes as necessary
+public class FeatureCollection
+{
     public List<Feature> Features { get; set; }
 }
+
 public class Feature
 {
-    public string Id { get; set; }
-    public FeatureProperties Properties { get; set; }
+    public Properties Properties { get; set; }
 }
-public class FeatureProperties
+
+public class Properties
 {
     public string Place { get; set; }
-    public decimal Mag { get; set; }
+    public double Mag { get; set; }
 }
-}
+
+   

@@ -25,13 +25,9 @@ public class Maze
         _mazeMap = mazeMap;
     }
 
-    /// <summary>
-    /// Check to see if you can move left. If you can, then move. If you
-    /// can't move, throw an InvalidOperationException with the message "Can't go that way!".
-    /// </summary>
     public void MoveLeft()
     {
-        if (_mazeMap[(_currX, _currY)][0])
+        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][0])
         {
             _currX -= 1;
         }
@@ -41,13 +37,9 @@ public class Maze
         }
     }
 
-    /// <summary>
-    /// Check to see if you can move right. If you can, then move. If you
-    /// can't move, throw an InvalidOperationException with the message "Can't go that way!".
-    /// </summary>
     public void MoveRight()
     {
-        if (_mazeMap[(_currX, _currY)][1])
+        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][1])
         {
             _currX += 1;
         }
@@ -57,13 +49,9 @@ public class Maze
         }
     }
 
-    /// <summary>
-    /// Check to see if you can move up. If you can, then move. If you
-    /// can't move, throw an InvalidOperationException with the message "Can't go that way!".
-    /// </summary>
     public void MoveUp()
     {
-        if (_mazeMap[(_currX, _currY)][2])
+        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][2])
         {
             _currY -= 1;
         }
@@ -73,13 +61,9 @@ public class Maze
         }
     }
 
-    /// <summary>
-    /// Check to see if you can move down. If you can, then move. If you
-    /// can't move, throw an InvalidOperationException with the message "Can't go that way!".
-    /// </summary>
     public void MoveDown()
     {
-        if (_mazeMap[(_currX, _currY)][3])
+        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][3])
         {
             _currY += 1;
         }
@@ -91,9 +75,6 @@ public class Maze
 
     public string GetStatus()
     {
-        return $"Current location (x={_currX}, y={_currY})";
+        return $"Current location: (x={_currX}, y={_currY})";
     }
 }
-
-  
-  

@@ -5,14 +5,12 @@
 ///
 /// (x,y) : [left, right, up, down]
 ///
-/// 'x' and 'y' are integers and represents locations in the maze.
-/// 'left', 'right', 'up', and 'down' are boolean and represent valid directions
+/// 'x' and 'y' are integers and represent locations in the maze.
+/// 'left', 'right', 'up', and 'down' are boolean values that represent valid directions.
 ///
-/// If a direction is false, then we can assume there is a wall in that direction.
-/// If a direction is true, then we can proceed.  
-///
-/// If there is a wall, then throw an InvalidOperationException with the message "Can't go that way!".  If there is no wall,
-/// then the 'currX' and 'currY' values should be changed.
+/// If a direction is false, there is a wall in that direction, and an 
+/// InvalidOperationException is thrown with the message "Can't go that way!".  
+/// If there is no wall, the 'currX' and 'currY' values are updated.
 /// </summary>
 public class Maze
 {
@@ -22,12 +20,21 @@ public class Maze
 
     public Maze(Dictionary<(int, int), bool[]> mazeMap)
     {
+        // Validate that all bool[] entries have exactly 4 elements
+        foreach (var entry in mazeMap.Values)
+        {
+            if (entry.Length != 4)
+            {
+                throw new ArgumentException("Each value in the maze map must have exactly 4 elements representing directions.");
+            }
+        }
+
         _mazeMap = mazeMap;
     }
 
     public void MoveLeft()
     {
-        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][0])
+        if (_mazeMap.TryGetValue((_currX, _currY), out var directions) && directions[0])
         {
             _currX -= 1;
         }
@@ -39,7 +46,7 @@ public class Maze
 
     public void MoveRight()
     {
-        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][1])
+        if (_mazeMap.TryGetValue((_currX, _currY), out var directions) && directions[1])
         {
             _currX += 1;
         }
@@ -51,7 +58,7 @@ public class Maze
 
     public void MoveUp()
     {
-        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][2])
+        if (_mazeMap.TryGetValue((_currX, _currY), out var directions) && directions[2])
         {
             _currY -= 1;
         }
@@ -63,7 +70,7 @@ public class Maze
 
     public void MoveDown()
     {
-        if (_mazeMap.ContainsKey((_currX, _currY)) && _mazeMap[(_currX, _currY)][3])
+        if (_mazeMap.TryGetValue((_currX, _currY), out var directions) && directions[3])
         {
             _currY += 1;
         }
@@ -78,3 +85,7 @@ public class Maze
         return $"Current location: (x={_currX}, y={_currY})";
     }
 }
+
+   
+        
+       

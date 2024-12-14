@@ -5,9 +5,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+// Ensure the following `using` directive matches the namespace of your `FeatureCollection` file:
+using YourNamespaceForFeatureCollection;
 
 public static class SetsAndMaps
 {
+    private static readonly HttpClient HttpClient = new();
+
     public static string[] FindPairs(string[] words)
     {
         var result = new List<string>();
@@ -16,7 +20,7 @@ public static class SetsAndMaps
         foreach (var word in words)
         {
             var reversed = new string(word.Reverse().ToArray());
-            if (wordSet.Contains(reversed) && word != reversed)
+            if (wordSet.Contains(reversed) && (word != reversed || wordSet.Count(x => x == word) > 1))
             {
                 result.Add($"{word} & {reversed}");
                 wordSet.Remove(word); // Avoid duplicates
@@ -27,7 +31,7 @@ public static class SetsAndMaps
         return result.ToArray();
     }
 
-    public static Dictionary<string, int> SummarizeDegrees(string filename)
+    public static Dictionary<string, int> SummarizeDegrees(string filename, char delimiter = ',')
     {
         var degrees = new Dictionary<string, int>();
 
@@ -35,17 +39,13 @@ public static class SetsAndMaps
         {
             foreach (var line in File.ReadLines(filename))
             {
-                var fields = line.Split(',');
+                var fields = line.Split(delimiter);
                 if (fields.Length > 3)
                 {
                     var degree = fields[3].Trim();
-                    if (degrees.ContainsKey(degree))
+                    if (!string.IsNullOrEmpty(degree))
                     {
-                        degrees[degree]++;
-                    }
-                    else
-                    {
-                        degrees[degree] = 1;
+                        degrees[degree] = degrees.GetValueOrDefault(degree) + 1;
                     }
                 }
             }
@@ -60,13 +60,19 @@ public static class SetsAndMaps
 
     public static bool IsAnagram(string word1, string word2)
     {
-        var cleanWord1 = new string(word1.ToLower().Where(char.IsLetterOrDigit).ToArray());
-        var cleanWord2 = new string(word2.ToLower().Where(char.IsLetterOrDigit).ToArray());
+        var charCounts = new Dictionary<char, int>();
 
-        var charCount1 = cleanWord1.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
-        var charCount2 = cleanWord2.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
+        foreach (var c in word1.ToLower().Where(char.IsLetterOrDigit))
+        {
+            charCounts[c] = charCounts.GetValueOrDefault(c) + 1;
+        }
 
-        return charCount1.Count == charCount2.Count && charCount1.All(kvp => charCount2.TryGetValue(kvp.Key, out var count) && count == kvp.Value);
+        foreach (var c in word2.ToLower().Where(char.IsLetterOrDigit))
+        {
+            charCounts[c] = charCounts.GetValueOrDefault(c) - 1;
+        }
+
+        return charCounts.Values.All(count => count == 0);
     }
 
     public static async Task<string[]> EarthquakeDailySummaryAsync()
@@ -76,8 +82,7 @@ public static class SetsAndMaps
 
         try
         {
-            using var client = new HttpClient();
-            var json = await client.GetStringAsync(uri);
+            var json = await HttpClient.GetStringAsync(uri);
             var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
 
             if (featureCollection?.Features == null)
@@ -86,7 +91,7 @@ public static class SetsAndMaps
             }
 
             return featureCollection.Features
-                .Where(f => f.Properties != null)
+                .Where(f => f.Properties != null && !string.IsNullOrEmpty(f.Properties.Place))
                 .Select(f => $"Location: {f.Properties.Place}, Magnitude: {f.Properties.Mag}")
                 .ToArray();
         }
@@ -97,39 +102,3 @@ public static class SetsAndMaps
         }
     }
 }
-
-// Entry point for running the code
-public static class Program
-{
-    public static async Task Main(string[] args)
-    {
-        // Example usage of FindPairs
-        string[] words = { "am", "at", "ma", "if", "fi" };
-        string[] pairs = SetsAndMaps.FindPairs(words);
-        Console.WriteLine("Found pairs:");
-        foreach (string pair in pairs)
-        {
-            Console.WriteLine(pair);
-        }
-
-        // Example usage of SummarizeDegrees
-        var degreesSummary = SetsAndMaps.SummarizeDegrees("degrees.csv");
-        Console.WriteLine("Degree summary:");
-        foreach (var entry in degreesSummary)
-        {
-            Console.WriteLine($"{entry.Key}: {entry.Value}");
-        }
-
-        // Example usage of EarthquakeDailySummaryAsync
-        var earthquakeSummary = await SetsAndMaps.EarthquakeDailySummaryAsync();
-        Console.WriteLine("Earthquake summary:");
-        foreach (string summary in earthquakeSummary)
-        {
-            Console.WriteLine(summary);
-        }
-    }
-}
-
-       
-
-   

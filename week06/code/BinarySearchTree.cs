@@ -9,12 +9,9 @@ public class BinarySearchTree : IEnumerable<int>
     /// </summary>
     public void Insert(int value)
     {
-        // Create new node
         Node newNode = new Node(value);
-        // If the list is empty, then point both head and tail to the new node.
         if (_root is null)
             _root = newNode;
-        // If the list is not empty, then only head will be affected.
         else
             _root.Insert(value);
     }
@@ -22,21 +19,15 @@ public class BinarySearchTree : IEnumerable<int>
     /// <summary>
     /// Check to see if the tree contains a certain value
     /// </summary>
-    /// <param name="value">The value to look for</param>
-    /// <returns>true if found, otherwise false</returns>
     public bool Contains(int value)
     {
-        return _root != null && _root.Contains(value);
+        return _root?.Contains(value) ?? false;
     }
 
     /// <summary>
     /// Yields all values in the tree
     /// </summary>
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        // call the generic version of the method
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
     /// Iterate forward through the BST
@@ -62,9 +53,9 @@ public class BinarySearchTree : IEnumerable<int>
     }
 
     /// <summary>
-    /// Iterate backward through the BST.
+    /// Iterate backward through the BST
     /// </summary>
-    public IEnumerable Reverse()
+    public IEnumerable<int> Reverse()
     {
         var numbers = new List<int>();
         TraverseBackward(_root, numbers);
@@ -89,9 +80,7 @@ public class BinarySearchTree : IEnumerable<int>
     /// </summary>
     public int GetHeight()
     {
-        if (_root is null)
-            return 0;
-        return _root.GetHeight();
+        return _root?.GetHeight() ?? 0;
     }
 
     public override string ToString()
@@ -99,6 +88,3 @@ public class BinarySearchTree : IEnumerable<int>
         return "<Bst>{" + string.Join(", ", this) + "}";
     }
 }
-  
-       
-  

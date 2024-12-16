@@ -4,11 +4,18 @@ public class Node
     public Node? Right { get; private set; }
     public Node? Left { get; private set; }
 
+    // Constructor to initialize the node
     public Node(int data)
     {
         this.Data = data;
+        this.Right = null;
+        this.Left = null;
     }
 
+    /// <summary>
+    /// Inserts a value into the binary search tree.
+    /// </summary>
+    /// <param name="value">The value to insert.</param>
     public void Insert(int value)
     {
         if (value < Data)
@@ -27,12 +34,14 @@ public class Node
             else
                 Right.Insert(value);
         }
-        else
-        {
-            return;
-        }
+        // Duplicates are ignored
     }
 
+    /// <summary>
+    /// Checks whether the tree contains a specific value.
+    /// </summary>
+    /// <param name="value">The value to check for.</param>
+    /// <returns>True if the value exists in the tree, false otherwise.</returns>
     public bool Contains(int value)
     {
         if (value == Data)
@@ -41,46 +50,28 @@ public class Node
         }
         else if (value < Data)
         {
-            if (Left is null)
-                return false;
-            else
-                return Left.Contains(value);
+            return Left != null && Left.Contains(value);
         }
-        else if (value > Data)
+        else // value > Data
         {
-            if (Right is null)
-                return false;
-            else
-                return Right.Contains(value);
+            return Right != null && Right.Contains(value);
         }
-        return false;
     }
 
+    /// <summary>
+    /// Gets the height of the binary search tree.
+    /// </summary>
+    /// <returns>The height of the tree.</returns>
     public int GetHeight()
     {
-        // TODO Start Problem 4
-        var left = 1;
-        var right = 1;
-        var Left_aux = Left;
-        var Right_aux = Right;
+        int leftHeight = Left?.GetHeight() ?? 0; // Recursively get left subtree height
+        int rightHeight = Right?.GetHeight() ?? 0; // Recursively get right subtree height
 
-        while (Left_aux != null)
-        {
-            Left_aux = Left_aux.Left;
-            left += 1;
-        }
-        while (Right_aux != null)
-        {
-            Right_aux = Right_aux.Right;
-            right += 1;
-        }
-
-        if (left > right)
-            return left;
-        else if (right > left)
-            return right;
-        else
-            return left;
+        return Math.Max(leftHeight, rightHeight) + 1; // Height is the maximum of both subtrees plus 1
     }
 }
-           
+
+       
+
+   
+      

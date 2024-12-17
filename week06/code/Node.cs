@@ -1,3 +1,84 @@
+using System.Collections;
+using System.Collections.Generic;
+
+public class BinarySearchTree : IEnumerable<int>
+{
+    private Node? _root;
+
+    /// <summary>
+    /// Inserts a new node into the BST.
+    /// </summary>
+    public void Insert(int value)
+    {
+        if (_root is null)
+            _root = new Node(value);
+        else
+            _root.Insert(value);
+    }
+
+    /// <summary>
+    /// Checks whether the BST contains a specific value.
+    /// </summary>
+    public bool Contains(int value)
+    {
+        return _root?.Contains(value) ?? false;
+    }
+
+    /// <summary>
+    /// Yields all values in the BST in in-order traversal.
+    /// </summary>
+    public IEnumerator<int> GetEnumerator()
+    {
+        return TraverseForward(_root).GetEnumerator();
+    }
+
+    private IEnumerable<int> TraverseForward(Node? node)
+    {
+        if (node is not null)
+        {
+            foreach (var val in TraverseForward(node.Left)) yield return val;
+            yield return node.Data;
+            foreach (var val in TraverseForward(node.Right)) yield return val;
+        }
+    }
+
+    /// <summary>
+    /// Iterates over the values in reverse in-order traversal.
+    /// </summary>
+    public IEnumerable<int> Reverse()
+    {
+        return TraverseBackward(_root);
+    }
+
+    private IEnumerable<int> TraverseBackward(Node? node)
+    {
+        if (node is not null)
+        {
+            foreach (var val in TraverseBackward(node.Right)) yield return val;
+            yield return node.Data;
+            foreach (var val in TraverseBackward(node.Left)) yield return val;
+        }
+    }
+
+    /// <summary>
+    /// Returns the height of the BST.
+    /// </summary>
+    public int GetHeight()
+    {
+        return _root?.GetHeight() ?? 0;
+    }
+
+    /// <summary>
+    /// Overrides ToString to display the BST contents in order.
+    /// </summary>
+    public override string ToString()
+    {
+        return "<Bst>{" + string.Join(", ", this) + "}";
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+}
+
 public class Node
 {
     public int Data { get; set; }
@@ -70,8 +151,3 @@ public class Node
         return Math.Max(leftHeight, rightHeight) + 1; // Height is the maximum of both subtrees plus 1
     }
 }
-
-       
-
-   
-      

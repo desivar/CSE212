@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 
 public class BinarySearchTree : IEnumerable<int>
 {
@@ -9,15 +10,14 @@ public class BinarySearchTree : IEnumerable<int>
     /// </summary>
     public void Insert(int value)
     {
-        Node newNode = new Node(value);
         if (_root is null)
-            _root = newNode;
+            _root = new Node(value);
         else
             _root.Insert(value);
     }
 
     /// <summary>
-    /// Check to see if the tree contains a certain value
+    /// Check to see if the tree contains a certain value.
     /// </summary>
     public bool Contains(int value)
     {
@@ -25,66 +25,60 @@ public class BinarySearchTree : IEnumerable<int>
     }
 
     /// <summary>
-    /// Yields all values in the tree
-    /// </summary>
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    /// <summary>
-    /// Iterate forward through the BST
+    /// GetEnumerator implementation for in-order traversal.
     /// </summary>
     public IEnumerator<int> GetEnumerator()
     {
-        var numbers = new List<int>();
-        TraverseForward(_root, numbers);
-        foreach (var number in numbers)
-        {
-            yield return number;
-        }
+        return TraverseForward(_root).GetEnumerator();
     }
 
-    private void TraverseForward(Node? node, List<int> values)
+    private IEnumerable<int> TraverseForward(Node? node)
     {
         if (node is not null)
         {
-            TraverseForward(node.Left, values);
-            values.Add(node.Data);
-            TraverseForward(node.Right, values);
+            foreach (var val in TraverseForward(node.Left)) yield return val;
+            yield return node.Data;
+            foreach (var val in TraverseForward(node.Right)) yield return val;
         }
     }
 
     /// <summary>
-    /// Iterate backward through the BST
+    /// Iterate backward through the BST (reverse in-order).
     /// </summary>
     public IEnumerable<int> Reverse()
     {
-        var numbers = new List<int>();
-        TraverseBackward(_root, numbers);
-        foreach (var number in numbers)
-        {
-            yield return number;
-        }
+        return TraverseBackward(_root);
     }
 
-    private void TraverseBackward(Node? node, List<int> values)
+    private IEnumerable<int> TraverseBackward(Node? node)
     {
         if (node is not null)
         {
-            TraverseBackward(node.Right, values);
-            values.Add(node.Data);
-            TraverseBackward(node.Left, values);
+            foreach (var val in TraverseBackward(node.Right)) yield return val;
+            yield return node.Data;
+            foreach (var val in TraverseBackward(node.Left)) yield return val;
         }
     }
 
     /// <summary>
-    /// Get the height of the tree
+    /// Get the height of the tree.
     /// </summary>
     public int GetHeight()
     {
         return _root?.GetHeight() ?? 0;
     }
 
+    /// <summary>
+    /// Override ToString to display BST contents in order.
+    /// </summary>
     public override string ToString()
     {
         return "<Bst>{" + string.Join(", ", this) + "}";
     }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
+
+
+    
+    

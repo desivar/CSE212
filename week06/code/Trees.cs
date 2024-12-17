@@ -34,8 +34,8 @@ public static class Trees
         if (first > last)
             return;
 
-        // Find the middle index
-        int middle = (first + last) / 2;
+        // Calculate the middle index safely to avoid overflow
+        int middle = first + (last - first) / 2;
 
         // Insert the middle element into the BST
         bst.Insert(sortedNumbers[middle]);

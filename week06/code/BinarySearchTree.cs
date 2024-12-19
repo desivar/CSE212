@@ -1,157 +1,91 @@
 using System.Collections;
-using System.Collections.Generic;
 
-public class BinarySearchTree : IEnumerable<int>
-{
+public class BinarySearchTree : IEnumerable<int> {
     private Node? _root;
 
     /// <summary>
-    /// Inserts a new node into the BST.
+    /// Insert a new node in the BST.
     /// </summary>
-    public void Insert(int value)
-    {
+    public void Insert(int value) {
+        // Create new node
+        Node newNode = new Node(value);
+        // If the list is empty, then point both head and tail to the new node.
         if (_root is null)
-            _root = new Node(value);
+            _root = newNode;
+        // If the list is not empty, then only head will be affected.
         else
             _root.Insert(value);
     }
 
     /// <summary>
-    /// Checks whether the BST contains a specific value.
+    /// Check to see if the tree contains a certain value
     /// </summary>
-    public bool Contains(int value)
-    {
-        return _root?.Contains(value) ?? false;
+    /// <param name="value">The value to look for</param>
+    /// <returns>true if found, otherwise false</returns>
+    public bool Contains(int value) {
+        return _root != null && _root.Contains(value);
     }
 
     /// <summary>
-    /// Yields all values in the BST in in-order traversal.
+    /// Yields all values in the tree
     /// </summary>
-    public IEnumerator<int> GetEnumerator()
-    {
-        return TraverseForward(_root).GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() {
+        // call the generic version of the method
+        return GetEnumerator();
     }
 
-    private IEnumerable<int> TraverseForward(Node? node)
-    {
-        if (node is not null)
-        {
-            foreach (var val in TraverseForward(node.Left)) yield return val;
-            yield return node.Data;
-            foreach (var val in TraverseForward(node.Right)) yield return val;
+    /// <summary>
+    /// Iterate forward through the BST
+    /// </summary>
+    public IEnumerator<int> GetEnumerator() {
+        var numbers = new List<int>();
+        TraverseForward(_root, numbers);
+        foreach (var number in numbers) {
+            yield return number;
+        }
+    }
+
+    private void TraverseForward(Node? node, List<int> values) {
+        if (node is not null) {
+            TraverseForward(node.Left, values);
+            values.Add(node.Data);
+            TraverseForward(node.Right, values);
         }
     }
 
     /// <summary>
-    /// Iterates over the values in reverse in-order traversal.
+    /// Iterate backward through the BST.
     /// </summary>
-    public IEnumerable<int> Reverse()
-    {
-        return TraverseBackward(_root);
+    public IEnumerable Reverse() {
+        var numbers = new List<int>();
+        TraverseBackward(_root, numbers);
+        foreach (var number in numbers) {
+            yield return number;
+        }
     }
 
-    private IEnumerable<int> TraverseBackward(Node? node)
-    {
-        if (node is not null)
-        {
-            foreach (var val in TraverseBackward(node.Right)) yield return val;
-            yield return node.Data;
-            foreach (var val in TraverseBackward(node.Left)) yield return val;
+    private void TraverseBackward(Node? node, List<int> values) {
+        // TODO Problem 3
+        
+        if (node is not null) {
+            // backward traverse nodes on the right nodes
+            TraverseBackward(node.Right, values);
+            values.Add(node.Data);
+            // backward traverse nodes on the left nodes
+            TraverseBackward(node.Left, values);
         }
     }
 
     /// <summary>
-    /// Returns the height of the BST.
+    /// Get the height of the tree
     /// </summary>
-    public int GetHeight()
-    {
-        return _root?.GetHeight() ?? 0;
+    public int GetHeight() {
+        if (_root is null)
+            return 0;
+        return _root.GetHeight();
     }
 
-    /// <summary>
-    /// Overrides ToString to display the BST contents in order.
-    /// </summary>
-    public override string ToString()
-    {
+    public override string ToString() {
         return "<Bst>{" + string.Join(", ", this) + "}";
     }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
-
-public class Node
-{
-    public int Data { get; set; }
-    public Node? Right { get; private set; }
-    public Node? Left { get; private set; }
-
-    // Constructor to initialize the node
-    public Node(int data)
-    {
-        this.Data = data;
-        this.Right = null;
-        this.Left = null;
-    }
-
-    /// <summary>
-    /// Inserts a value into the binary search tree.
-    /// </summary>
-    /// <param name="value">The value to insert.</param>
-    public void Insert(int value)
-    {
-        if (value < Data)
-        {
-            // Insert to the left
-            if (Left is null)
-                Left = new Node(value);
-            else
-                Left.Insert(value);
-        }
-        else if (value > Data)
-        {
-            // Insert to the right
-            if (Right is null)
-                Right = new Node(value);
-            else
-                Right.Insert(value);
-        }
-        // Duplicates are ignored
-    }
-
-    /// <summary>
-    /// Checks whether the tree contains a specific value.
-    /// </summary>
-    /// <param name="value">The value to check for.</param>
-    /// <returns>True if the value exists in the tree, false otherwise.</returns>
-    public bool Contains(int value)
-    {
-        if (value == Data)
-        {
-            return true;
-        }
-        else if (value < Data)
-        {
-            return Left != null && Left.Contains(value);
-        }
-        else // value > Data
-        {
-            return Right != null && Right.Contains(value);
-        }
-    }
-
-    /// <summary>
-    /// Gets the height of the binary search tree.
-    /// </summary>
-    /// <returns>The height of the tree.</returns>
-    public int GetHeight()
-    {
-        int leftHeight = Left?.GetHeight() ?? 0; // Recursively get left subtree height
-        int rightHeight = Right?.GetHeight() ?? 0; // Recursively get right subtree height
-
-        return Math.Max(leftHeight, rightHeight) + 1; // Height is the maximum of both subtrees plus 1
-    }
-}
-
-    
-          
-    

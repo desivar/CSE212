@@ -89,3 +89,6 @@ public class BinarySearchTree : IEnumerable<int> {
         return "<Bst>{" + string.Join(", ", this) + "}";
     }
 }
+  
+    
+      
